@@ -1,13 +1,13 @@
 function drawBaseCanvas(ctx){
-    ctx.fillStyle = '#eeeeee';
-    ctx.fillRect(0, 0, 200, 200);
-    drawParcelBox(ctx, 10, 190, 80, 40, 6, '#222021');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 300, 200);
+    drawParcelBox(ctx, 60, 145, 80, 40, 6, '#222021');
 }
 
 function drawParcelBox(ctx, x, y, cube_width, cube_depth, tape_width, color){
-    var cw = cube_width;
-    var cwd = cube_depth;
-    var tw = tape_width;
+    let cw = cube_width;
+    let cwd = cube_depth;
+    let tw = tape_width;
 
     //print box
     ctx.beginPath();
@@ -46,17 +46,46 @@ function drawParcelBox(ctx, x, y, cube_width, cube_depth, tape_width, color){
 }
 
 function drawParcelTitle(ctx, x, y, text, color){
-    ctx.font = '20px Helvetica';
+    drawBaseCanvas(ctx);
+    ctx.font = "15px Helvetica";
     ctx.fillStyle = color;
     ctx.fillText(text, x, y);
 }
 
+function formValidation(){
+    let delivery_form_error = document.getElementById("delivery_form_error");
+    let tracking_nr = document.forms["delivery_form"]["tracking_nr"].value;
+    let delivery_option = document.forms["delivery_form"]["delivery_option"].value;
+    let consent = document.forms["delivery_form"]["consent"].checked;
+    /* alert(tracking_nr + " " + delivery_option + " " + consent); */
+    let re_tracking_nr = /^[0-9]{18}$/;
+
+    if (!re_tracking_nr.test(tracking_nr)) {
+        delivery_form_error.innerHTML = "Bitte geben Sie eine gültige nationale Sendungsnummer der Post an. Bsp. 990012345612345678";
+        delivery_form_error.removeAttribute("hidden");
+        return false;
+    }
+
+    if (!consent) {
+        delivery_form_error.innerHTML = "Bitte akzeptieren Sie die AGB.";
+        delivery_form_error.removeAttribute("hidden");
+        return false;
+    }
+
+    return true;
+    
+}
 
 window.onload = function () {
-    var canvas = document.getElementById("delivery_viz");
-    var ctx = canvas.getContext('2d');
-
+    let canvas = document.getElementById("delivery_viz");
+    let ctx = canvas.getContext('2d');
+    let delivery_option = document.querySelector("#delivery_option");
+    
+    //Draw default canvas
     drawBaseCanvas(ctx);
-    drawParcelTitle(ctx, 15, 30, 'text', '#8E424B');
-};
+    drawParcelTitle(ctx,15,175,`✨${delivery_option.options[0].text}✨`,'#222021');
 
+    delivery_option.addEventListener("change", (event) => {
+     drawParcelTitle(ctx,15,175,`✨${delivery_option.options[event.target.value-1].text}✨`,'#222021')
+    });
+}
