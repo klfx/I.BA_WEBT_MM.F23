@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="js/script.js"></script>
+    <title>WEBT Post Zustelloptionen</title>
+</head>
+<body>
+    <header class="w3-container w3-black">
+        <nav class="w3-bar w3-black">
+            <button class="w3-button" href="#information">Information</button>
+            <button class="w3-button" href="#form">Zustellformular</button>
+            <button class="w3-button" href="#query">Zustellstatus</button>
+        </nav>
+    </header>
+    <section id="main-content">
+        <article id="information">
+            <h2>Information</h2>
+            <p>
+                Diese Webapplikation wurde für das Modul I.BA_WEBT_MM.F23 an der Hochschule Luzern erstellt.
+                Entwickelt von Flavio Kluser (github.com/klfx).
+            </p>
+            <p>
+                Die Funktion der Applikation ist es, die Zustelloption für eine Sendung zu erfassen.
+
+            </p>
+        </article>
+        <article id="form">
+            <h2>Zustellformular</h2>
+            <form action="main.php" method="post" onsubmit="return querySuccess();">
+                <label for="tracking_nr">Sendungsnummer</label>
+                <input type="text" name="tracking_nr" id="tracking_nr" maxlength="20" required>
+                <br/>
+                <label for="delivery_option">Zustelloption</label>
+                <select name="delivery_option">
+                    <option value="1">Deponie beim Hauseingang</option>
+                    <option value="2">Deponie auf Etage</option>
+                    <option value="3">Zustellung an Nachbarn</option>
+                    <option value="4">Abholung Filiale</option>
+                </select>
+                
+                <br/>
+                <input type="checkbox" id="consent" name="consent" value="consent">
+                <label for="consent">Ich habe die AGB gelesen und bin damit einverstanden</label><br/><br/>
+
+                <button type="submit">Senden</button>
+            </form>
+        </article>
+        <article id="query">
+
+            <h2>Zustellstatus</h2>
+                <canvas id="delivery_viz" height="200" width="200"></canvas>
+        </article>
+    </section>
+
+</body>
+</html>
