@@ -1,7 +1,7 @@
 function drawBaseCanvas(ctx){
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, 300, 200);
-    drawParcelBox(ctx, 60, 145, 80, 40, 6, '#222021');
+    ctx.fillRect(0, 0, 400, 250);
+    drawParcelBox(ctx, 90, 180, 100, 50, 10, '#222021');
 }
 
 function drawParcelBox(ctx, x, y, cube_width, cube_depth, tape_width, color){
@@ -47,7 +47,7 @@ function drawParcelBox(ctx, x, y, cube_width, cube_depth, tape_width, color){
 
 function drawParcelTitle(ctx, x, y, text, color){
     drawBaseCanvas(ctx);
-    ctx.font = "15px Helvetica";
+    ctx.font = "20px Helvetica";
     ctx.fillStyle = color;
     ctx.fillText(text, x, y);
 }
@@ -60,15 +60,19 @@ function formValidation(){
     /* alert(tracking_nr + " " + delivery_option + " " + consent); */
     let re_tracking_nr = /^[0-9]{18}$/;
 
+    delivery_form_error.innerHTML = "";
+    
     if (!re_tracking_nr.test(tracking_nr)) {
-        delivery_form_error.innerHTML = "Bitte geben Sie eine gültige nationale Sendungsnummer der Post an. Bsp. 990012345612345678";
+        delivery_form_error.innerHTML += "Bitte geben Sie eine gültige nationale Sendungsnummer der Post an. Bsp. 990012345612345678<br>";
         delivery_form_error.removeAttribute("hidden");
-        return false;
     }
 
     if (!consent) {
-        delivery_form_error.innerHTML = "Bitte akzeptieren Sie die AGB.";
+        delivery_form_error.innerHTML += "Bitte akzeptieren Sie die AGB.";
         delivery_form_error.removeAttribute("hidden");
+    }
+
+    if (!re_tracking_nr.test(tracking_nr) || !consent) {
         return false;
     }
 
@@ -83,9 +87,9 @@ window.onload = function () {
     
     //Draw default canvas
     drawBaseCanvas(ctx);
-    drawParcelTitle(ctx,15,175,`✨${delivery_option.options[0].text}✨`,'#222021');
+    drawParcelTitle(ctx,15,220,`✨${delivery_option.options[0].text}✨`,'#222021');
 
     delivery_option.addEventListener("change", (event) => {
-     drawParcelTitle(ctx,15,175,`✨${delivery_option.options[event.target.value-1].text}✨`,'#222021')
+     drawParcelTitle(ctx,15,220,`✨${delivery_option.options[event.target.value-1].text}✨`,'#222021')
     });
 }
