@@ -74,7 +74,7 @@ $exists_res = mysqli_stmt_get_result($stmt);
 if ($exists_res){
     $exists_row = mysqli_fetch_assoc($exists_res);
     
-    $cur_date = date('Y-m-d');
+    $cur_date = date('Y-m-d H:i:s');
     #Case 1: Tracking number exists - update delivery option
     if ($exists_row['exists'] == 1){
         $update_option_query = "UPDATE `delivery` SET `delivery_option`= ?,`last_change_date` = ? WHERE tracking_nr = ?";
@@ -100,7 +100,7 @@ if ($exists_res){
 
     #Case 2: Tracking number does not exist or access denied - print error
     else {
-        printError("Anfrage fehlgeschlagen. Bitte überprüfen Sie die Tracking-Nummer und stellen Sie sicher, dass Sie auf diese Sendung berechtigt sind.");
+        printError("Bitte überprüfen Sie die Tracking-Nummer und stellen Sie sicher, dass Sie auf diese Sendung berechtigt sind.");
     }
 }
 
@@ -110,7 +110,7 @@ $res_summary = mysqli_query($con,$summary_query);
 echo "<div class='w3-panel w3-pale-blue w3-card-2' id='summary'>
 <h3>Ihre Sendungen</h3>";
 if (isset($_COOKIE['changes_count'])){
-    $changes_count = $_COOKIE['changes_count'];
+    $changes_count = $_COOKIE['changes_count']+1;
     echo "<p class='changes_count_label'><i>Sie haben in der letzten Stunde bereits $changes_count Zustelloptionen aktualisiert!</i></p>";
 }
 if ($res_summary){
