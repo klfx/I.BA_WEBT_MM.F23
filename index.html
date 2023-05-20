@@ -13,7 +13,7 @@
         <nav class="w3-bar w3-black">
             <a class="w3-button" href="#information">Information</a>
             <a class="w3-button" href="#form">Zustellformular</a>
-            <a class="w3-button" href="#query">Zustellstatus</a>
+            <a class="w3-button" href="#viz">Zustellvisualisierung</a>
         </nav>
     </header>
     <section id="main-content">
@@ -30,6 +30,7 @@
         </article>
         <article id="form">
             <h2>Zustellformular</h2>
+            <div class="w3-panel w3-pale-yellow w3-card-2" id="delivery_form_warning" hidden></div>  
             <form action="main.php" name="delivery_form" method="post" onsubmit="return formValidation();">
                 <label for="tracking_nr">Sendungsnummer</label>
                 <input type="text" name="tracking_nr" id="tracking_nr" maxlength="20" required>
@@ -45,15 +46,13 @@
                 <br/>
                 <input type="checkbox" id="consent" name="consent" value="consent">
                 <label for="consent">Ich habe die AGB gelesen und bin damit einverstanden</label><br/><br/>
-                <div class="w3-panel w3-pale-red w3-card-2" id="delivery_form_error" hidden>
-                    <p></p>
-                  </div>  
+                <div class="w3-panel w3-pale-red w3-card-2" id="delivery_form_error" hidden></div>  
                 <button type="submit">Senden</button>
             </form>
         </article>
-        <article id="query">
+        <article id="viz">
 
-            <h2>Zustellstatus</h2>
+            <h2>Zustellvisualisierung</h2>
                 <canvas id="delivery_viz" height="200" width="300"></canvas>
         </article>
     </section>

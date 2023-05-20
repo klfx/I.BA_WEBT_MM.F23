@@ -19,10 +19,25 @@
 $re_tracking_nr = "/^[0-9]{18}$/";
 $re_delivery_option = "/^[1-4]{1}$/";
 
+$delivery_option_arr = [
+    1 => "Deponie beim Hauseingang",
+    2 => "Deponie auf Etage",
+    3 => "Zustellung an Nachbarn",
+    4 => "Abholung Filiale",
+];
+
 function printError($error_msg){
     echo "<div class='w3-panel w3-pale-red w3-card-2' id='confirmation_error'>
         <h3>Fehler bei der Anfrage</h3>
         <p>$error_msg</p>
+        </div>";
+} 
+
+function printSuccess($tracking_nr,$delivery_option){
+    global $delivery_option_arr;
+    echo "<div class='w3-panel w3-pale-green w3-card-2' id='confirmation_success'>
+        <h3>Zustelloption geändert!</h3>
+        <p>Die Zustelloption für <b>$tracking_nr</b> wurde erfolgreich auf <b>$delivery_option_arr[$delivery_option]</b> geändert</p>
         </div>";
 }
 
@@ -65,7 +80,21 @@ if ($exists_res){
         $stmt_1 = mysqli_prepare($con,$update_option_query);
         mysqli_stmt_bind_param($stmt_1,'iss',$delivery_option,$cur_date,$tracking_nr);
         $res_1 = mysqli_stmt_execute($stmt_1);
-        echo "Status res_1: $res_1 <br>";
+        if ($res_1 == 1){
+            printSuccess($tracking_nr,$delivery_option);
+
+            if (isset($_COOKIE['changes_count'])){
+                $changes_count = $_COOKIE['changes_count'];
+                $changes_count++;
+                setcookie("changes_count",$changes_count,['expires' => time()+3600, 'samesite' => 'strict']);
+            }
+            else {
+                setcookie("changes_count",1,['expires' => time()+3600, 'samesite' => 'strict']);
+            }
+        }
+        else {
+            printError("Interner Fehler bei der Verarbeitung. Bitte versuchen Sie es erneut.");
+        }
     }
 
     #Case 2: Tracking number does not exist or access denied - print error
@@ -73,6 +102,24 @@ if ($exists_res){
         printError("Anfrage fehlgeschlagen. Bitte überprüfen Sie die Tracking-Nummer und stellen Sie sicher, dass Sie auf diese Sendung berechtigt sind.");
     }
 }
+
+#Print Summary over all Deliveries (not prepared b.c. static query without parameters)
+$summary_query = "SELECT * FROM delivery.delivery";
+$res_summary = mysqli_query($con,$summary_query);
+echo "<div class='w3-panel w3-pale-blue w3-card-2' id='summary'>
+<h3>Ihre Sendungen</h3>";
+if (isset($_COOKIE['changes_count'])){
+    $changes_count = $_COOKIE['changes_count'];
+    echo "<p class='changes_count_label'><i>Sie haben in der letzten Stunde bereits $changes_count Zustelloptionen geändert!</i></p>";
+}
+if ($res_summary){
+    while ($row = mysqli_fetch_assoc($res_summary)){
+        #echo "<p>Tracking-Nummer: <b>$row['tracking_nr']</b> | Zustelloption: <b>$delivery_option_arr[$row['delivery_option']]</b> | Letzte Änderung: <b>$row['last_change_date']";
+        echo "<p>Nr. ".$row['tracking_nr']." | (<b>".$delivery_option_arr[$row['delivery_option']]."</b>, letzte Änderung: ".$row['last_change_date'].")</p>";
+    }
+}
+echo "</div>";
+
 ?>
 
 </body>
