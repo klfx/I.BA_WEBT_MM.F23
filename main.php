@@ -1,29 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="js/script.js"></script>
+    <title>WEBT Post Bestätigung</title>
+</head>
+<body>
+<header class="w3-container w3-black">
+        <nav class="w3-bar w3-black">
+            <a class="w3-button" href="index.html"><- Home</a>
+        </nav>
+    </header>
 <?php
 
 $re_tracking_nr = "/^[0-9]{18}$/";
 $re_delivery_option = "/^[1-4]{1}$/";
 
-#https://www.php.net/manual/en/function.empty.php
+function printError($error_msg){
+    echo "<div class='w3-panel w3-pale-red w3-card-2' id='confirmation_error'>
+        <h3>Fehler bei der Anfrage</h3>
+        <p>$error_msg</p>
+        </div>";
+}
+
+# POST Request Server-Side Validation
 if(empty($_POST['tracking_nr']) || empty($_POST['delivery_option'])){
-    echo "Ungültiger Request. Bitte versuchen Sie es erneut.";
+    printError("Ungültiger Request. Bitte versuchen Sie es erneut.");
     return;
 } 
 
 if(!preg_match($re_tracking_nr,$_POST['tracking_nr'])) {
-    echo "Ungültige Tracking-Nummer im Request. Bitte versuchen Sie es erneut.";
+    printError("Ungültige Tracking-Nummer im Request. Bitte versuchen Sie es erneut.");
     return;
 }
 
 if(!preg_match($re_delivery_option,$_POST['delivery_option'])) {
-    echo "Ungültige Lieferoption im Request. Bitte versuchen Sie es erneut.";
+    printError("Ungültige Lieferoption im Request. Bitte versuchen Sie es erneut.");
     return;
 }
 
 $tracking_nr = $_POST['tracking_nr'];
 $delivery_option = $_POST['delivery_option'];
-echo "Tracking number: $tracking_nr <br>";
-echo "Delivery option: $delivery_option <br>";
-
 
 $con = mysqli_connect("localhost","root","","delivery");
 if (!$con) { echo "Keine Verbindung zur Datenbank möglich."; return;}
@@ -48,13 +68,12 @@ if ($exists_res){
         echo "Status res_1: $res_1 <br>";
     }
 
-    #Case 2: Tracking number does not exist - insert new entry
+    #Case 2: Tracking number does not exist or access denied - print error
     else {
-        $insert_query = "INSERT INTO `delivery`(`tracking_nr`, `delivery_option`, `last_change_date`) VALUES (?,?,?)";
-        $stmt_2 = mysqli_prepare($con,$insert_query);
-        mysqli_stmt_bind_param($stmt_2,'sis',$tracking_nr,$delivery_option,$cur_date);
-        $res_2 = mysqli_stmt_execute($stmt_2);
-        echo "Status res_2: $res_2 <br>";
+        printError("Anfrage fehlgeschlagen. Bitte überprüfen Sie die Tracking-Nummer und stellen Sie sicher, dass Sie auf diese Sendung berechtigt sind.");
     }
 }
 ?>
+
+</body>
+</html>
