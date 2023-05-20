@@ -3,51 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js"></script>
     <title>WEBT Post Zustelloptionen</title>
 </head>
 <body>
     <header class="w3-container w3-black">
         <nav class="w3-bar w3-black">
-            <a class="w3-button" href="#information">Information</a>
-            <a class="w3-button" href="#form">Zustellformular</a>
-            <a class="w3-button" href="#viz">Zustellvisualisierung</a>
+            <a class="w3-bar-item w3-button" href="#information">Information</a>
+            <div id="nav_hide_div" class="w3-hide-small">
+                <a class="w3-bar-item w3-button" href="#form">Zustellformular</a>
+                <a class="w3-bar-item w3-button" href="#viz">Zustellvisualisierung</a>
+            </div>
+            <button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" onclick="document.getElementById('nav_hide_div').classList.toggle('w3-hide-small');">&#x2261;</button>
         </nav>
     </header>
-    <section id="main-content">
-        <article id="information">
-            <h2>Information</h2>
-            <p>
-                Diese Webapplikation wurde für das Modul I.BA_WEBT_MM.F23 an der Hochschule Luzern erstellt.
-                Entwickelt von Flavio Kluser (github.com/klfx).
-            </p>
-            <p>
-                Die Funktion der Applikation ist es, die Zustelloption für eine Sendung zu erfassen.
+    <section id="main-content" class="w3-content w3-container">
+        <article id="information" class="w3-row-padding">
+            <div class="w3-col w3-twothird">
+                <h2>Information</h2>
+                <p>
+                    Diese Webapplikation wurde für das Modul I.BA_WEBT_MM.F23 an der Hochschule Luzern erstellt.
+                    Entwickelt von Flavio Kluser (github.com/klfx).
+                </p>
+                <p>
+                    Auf dieser Seite können Kunden der Post die Zustellungsmethode ihrer Pakete ändern. Dazu werden Sendungsnummern im nationalen CH-Format (numerisch, 18 Stellen) verwendet.
+                    Es wird davon ausgegangen, dass der Kunde sich in irgend einer Form authentifiziert und der Scope der modifizierbaren Sendungen eingeschränkt ist.
+                    Sobald die Anfrage mit Tr-Nr., gewünschter Zustelloption und AGB Einverständnis abgeschickt ist, erscheint eine Bestätigungsseite mit einer Übersicht aller Sendungen.
 
-            </p>
+                </p>
+            </div>
+            <div class="w3-col w3-third">
+                <img class="w3-image" src="img/happy_post_truck.png" alt="Cartoon Darstellung von einem Post Lieferwagen auf einem Berg"/>
+            </div>
         </article>
         <article id="form">
             <h2>Zustellformular</h2>
-            <div class="w3-panel w3-pale-yellow w3-card-2" id="delivery_form_warning" hidden></div>  
             <form action="main.php" name="delivery_form" method="post" onsubmit="return formValidation();">
-                <label for="tracking_nr">Sendungsnummer</label>
-                <input type="text" name="tracking_nr" id="tracking_nr" maxlength="20" required>
-                <br/>
-                <label for="delivery_option">Zustelloption</label>
-                <select name="delivery_option" id="delivery_option">
-                    <option value="1">Deponie beim Hauseingang</option>
-                    <option value="2">Deponie auf Etage</option>
-                    <option value="3">Zustellung an Nachbarn</option>
-                    <option value="4">Abholung Filiale</option>
-                </select>
-                
-                <br/>
-                <input type="checkbox" id="consent" name="consent" value="consent">
-                <label for="consent">Ich habe die AGB gelesen und bin damit einverstanden</label><br/><br/>
-                <div class="w3-panel w3-pale-red w3-card-2" id="delivery_form_error" hidden></div>  
-                <button type="submit">Senden</button>
+                <div class="w3-row-padding">
+                    <div class="w3-half">
+                        <label for="tracking_nr">Sendungsnummer</label><br/>
+                        <input type="text" name="tracking_nr" id="tracking_nr" class="w3-input w3-border" maxlength="20" required>
+                    </div>
+                    <div class="w3-half">
+                        <label for="delivery_option">Zustelloption</label>
+                        <select name="delivery_option" id="delivery_option" class="w3-select">
+                            <option value="1">Deponie beim Hauseingang</option>
+                            <option value="2">Deponie auf Etage</option>
+                            <option value="3">Zustellung an Nachbarn</option>
+                            <option value="4">Abholung Filiale</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="w3-row-padding">
+                    <br/>
+                    <input type="checkbox" id="consent" class="w3-check" name="consent" value="consent">
+                    <label for="consent">Ich habe die AGB gelesen und bin damit einverstanden</label><br/><br/>
+                    <div class="w3-panel w3-pale-red w3-card-2" id="delivery_form_error" hidden></div>  
+                    <button type="submit" class="w3-button w3-black w3-hover-yellow w3-round">Senden</button>
+                </div>
             </form>
         </article>
         <article id="viz">

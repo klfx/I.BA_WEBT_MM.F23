@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js"></script>
     <title>WEBT Post Bestätigung</title>
 </head>
 <body>
 <header class="w3-container w3-black">
         <nav class="w3-bar w3-black">
-            <a class="w3-button" href="index.html"><- Home</a>
+            <a class="w3-bar-item w3-button" href="index.html"><- Home</a>
         </nav>
-    </header>
+</header>
+<section id="main-content-confirmation" class="w3-content w3-container">
 <?php
 
 $re_tracking_nr = "/^[0-9]{18}$/";
@@ -110,7 +111,7 @@ echo "<div class='w3-panel w3-pale-blue w3-card-2' id='summary'>
 <h3>Ihre Sendungen</h3>";
 if (isset($_COOKIE['changes_count'])){
     $changes_count = $_COOKIE['changes_count'];
-    echo "<p class='changes_count_label'><i>Sie haben in der letzten Stunde bereits $changes_count Zustelloptionen geändert!</i></p>";
+    echo "<p class='changes_count_label'><i>Sie haben in der letzten Stunde bereits $changes_count Zustelloptionen aktualisiert!</i></p>";
 }
 if ($res_summary){
     while ($row = mysqli_fetch_assoc($res_summary)){
@@ -121,6 +122,6 @@ if ($res_summary){
 echo "</div>";
 
 ?>
-
+</section>
 </body>
 </html>
