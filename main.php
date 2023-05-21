@@ -11,7 +11,7 @@
 <body>
 <header class="w3-container w3-black">
         <nav class="w3-bar w3-black">
-            <a class="w3-bar-item w3-button" href="index.html"><- Home</a>
+            <a class="w3-bar-item w3-button w3-hover-yellow" href="index.html">< Home</a>
         </nav>
 </header>
 <section id="main-content-confirmation" class="w3-content w3-container">
@@ -43,6 +43,8 @@ function printSuccess($tracking_nr,$delivery_option){
 }
 
 # POST Request Server-Side Validation
+
+# Note: empty() will return true for 0. However, it does not matter since 0 is not a valid value for any attribute.
 if(empty($_POST['tracking_nr']) || empty($_POST['delivery_option'])){
     printError("Ungültiger Request. Bitte versuchen Sie es erneut.");
     return;

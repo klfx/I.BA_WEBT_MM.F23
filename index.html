@@ -11,12 +11,12 @@
 <body>
     <header class="w3-container w3-black">
         <nav class="w3-bar w3-black">
-            <a class="w3-bar-item w3-button" href="#information">Information</a>
+            <a class="w3-bar-item w3-button w3-hover-yellow" href="#information">Information</a>
             <div id="nav_hide_div" class="w3-hide-small">
-                <a class="w3-bar-item w3-button" href="#form">Zustellformular</a>
-                <a class="w3-bar-item w3-button" href="#viz">Zustellvisualisierung</a>
+                <a class="w3-bar-item w3-button w3-hover-yellow" href="#form">Zustellformular</a>
+                <a class="w3-bar-item w3-button w3-hover-yellow" href="#viz">Zustellvisualisierung</a>
             </div>
-            <button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" onclick="document.getElementById('nav_hide_div').classList.toggle('w3-hide-small');">&#x2261;</button>
+            <button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" id="mobile_nav_btn" onclick="document.getElementById('nav_hide_div').classList.toggle('w3-hide-small');">&#x2261;</button>
         </nav>
     </header>
     <section id="main-content" class="w3-content w3-container">
@@ -90,7 +90,7 @@
                     <input type="checkbox" id="consent" class="w3-check" name="consent" value="consent">
                     <label for="consent">Ich habe die AGB gelesen und bin damit einverstanden</label><br/><br/>
                     <div class="w3-panel w3-pale-red w3-card-2" id="delivery_form_error" hidden></div>  
-                    <button type="submit" class="w3-button w3-black w3-hover-yellow w3-round">Senden</button>
+                    <button type="submit" class="w3-button w3-black w3-hover-yellow w3-round" id="submit_button">Senden</button>
                 </div>
             </form>
         </article>

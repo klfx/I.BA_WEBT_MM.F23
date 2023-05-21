@@ -1,0 +1,20 @@
+#submit_button:hover {
+    transition: background-color 0.5s ease-out;
+}
+
+#delivery_option {
+    padding-left: 9px;
+}
+
+#delivery_option:hover {
+    background-color: #d6d6d6;
+    transition: background-color 0.2s ease-out;
+}
+
+#consent {
+    margin-left: 5px;
+}
+
+#mobile_nav_btn:hover{
+    transition: background-color 0.2s ease-out;
+}
