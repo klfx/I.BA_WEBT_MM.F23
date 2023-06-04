@@ -44,8 +44,11 @@ function printSuccess($tracking_nr,$delivery_option){
 
 # POST Request Server-Side Validation
 
-# Note: empty() will return true for 0. However, it does not matter since 0 is not a valid value for any attribute.
-if(empty($_POST['tracking_nr']) || empty($_POST['delivery_option'])){
+# Note I: empty() will return true for 0. However, it does not matter since 0 is not a valid value for any attribute in this case.
+# Note II:  The consent checkbox is validated again server-side.
+#           The Task Description requires that (1) all inputs are passed to the script and (2) that client/server input validation are kind of equivalent.
+#           If consent is unchecked, it will be missing in the request, making it invalid.
+if(empty($_POST['tracking_nr']) || empty($_POST['delivery_option']) || empty($_POST['consent'])){
     printError("Ungültiger Request. Bitte versuchen Sie es erneut.");
     return;
 } 
